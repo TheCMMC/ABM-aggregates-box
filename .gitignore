@@ -1,0 +1,6 @@
+#ignore c++ binaries
+*.o
+tetra/CMake*
+tetra/Makefile
+tetra/cmake_install.cmake
+tetra/tetra
