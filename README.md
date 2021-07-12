@@ -1,16 +1,15 @@
 # ABM microcarriers
 
-This software is under copyright of the CMMC and no license is offered at the moment. It is used for the Proof of Concept project by the [CMMC](thecmmc.org).
+This software is under copyright of the CMMC and no license is offered at the moment. It is used for the aggregates project by the [CMMC](thecmmc.org).
 
 ## About
 
-This repository contains the ABM-microcarriers model that is being developed for the GFI bioreactor project from the [Cultivated Meat Modeling Consortium](http://www.thecmmc.org).
+This repository contains the ABM-aggregates-box model that is being developed for the [Cultivated Meat Modeling Consortium](http://www.thecmmc.org).
 To run this model a working installation of Biocellion v3.1 is needed.
 
 ## Setup
 
 - Download Biocellion 3.1 (Biocellion 3.1 is currently not available yet)
-- Install CGAL: https://doc.cgal.org/latest/Manual/usage.html
 
 ## Contributing
 
