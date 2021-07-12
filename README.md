@@ -1,6 +1,6 @@
 # ABM microcarriers
 
-This software is used for the Proof of Concept project by the [CMMC](thecmmc.org).
+This software is under copyright of the CMMC and no license is offered at the moment. It is used for the Proof of Concept project by the [CMMC](thecmmc.org).
 
 ## About
 
