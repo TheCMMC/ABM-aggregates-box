@@ -32,7 +32,7 @@ inline REAL MonodEquation(  REAL Kc , REAL u ) {
 
 /* MODEL START */
 const S32 SYSTEM_DIMENSION = 3;
-const REAL IF_GRID_SPACING = 120; // in micrometers
+const REAL IF_GRID_SPACING = 50; // also called "h" in the documentation, in micrometers
 const REAL EPSILON = 1e-20;
 
 typedef enum _model_rng_type_e {
@@ -133,7 +133,7 @@ typedef enum _grid_model_real_e {
 
 const REAL A_DIFFUSION_COEFF_CELLS[ NUM_AGENT_TYPES ] = { 0.0, 0.0 };
 const REAL A_AGENT_FRICIONAL_DRAG[ NUM_AGENT_TYPES ] = { 1.2e-4, 1e-5 }; 
-const REAL A_CELL_RADIUS[ NUM_AGENT_TYPES ] = {  150.0 *0.5, 14.5 }; //14.5
+const REAL A_CELL_RADIUS[ NUM_AGENT_TYPES ] = {  150.0 *0.5, 14.5 }; //mean microcarrier radius: 80/2 (from UCLA team); cell radius between 7 and 38 (from UCLA team);
 const REAL A_DIVISION_RADIUS[  NUM_AGENT_TYPES ] = { 0.0, 15.0 };
 const REAL A_MIN_CELL_RADIUS[ NUM_AGENT_TYPES ] ={ 0.0, 11.0  } ;
 const REAL A_MAX_CELL_RADIUS[ NUM_AGENT_TYPES ] ={ 0.0, 16.0  };

@@ -5,7 +5,7 @@ This software is under copyright of the CMMC and no license is offered at the mo
 ## About
 
 This repository contains the ABM-aggregates-box model that is being developed for the [Cultivated Meat Modeling Consortium](http://www.thecmmc.org).
-To run this model a working installation of Biocellion v3.1 is needed.
+To run this model a working installation of Biocellion v3.1 is needed. For more information about this model and relevant references view Notes.md
 
 ## Setup
 

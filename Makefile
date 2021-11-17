@@ -21,11 +21,8 @@ INCLUDE += -I $(BIOCELLION_ROOT)/libmodel/include
 
 CXXFLAG += -fPIC
 
-libmodel${PRECISION}${SUPPORT_MP}${SUPPORT_SP}.so: interface_config.o interface_agent.o interface_mech_intrct.o interface_grid.o interface_output.o model_routine_config.o model_routine_grid.o model_routine_agent.o model_routine_mech_intrct.o model_routine_output.o interface_check.o tetra/CMakeFiles/tetra.dir/tetra.cpp.o
-	$(CXX) -shared $(LINKFLAG) -Wl,-soname,libmodel${PRECISION}${SUPPORT_MP}${SUPPORT_SP}.so -o libmodel${PRECISION}${SUPPORT_MP}${SUPPORT_SP}.so interface_config.o interface_agent.o interface_mech_intrct.o interface_grid.o interface_output.o model_routine_config.o model_routine_grid.o model_routine_agent.o model_routine_mech_intrct.o model_routine_output.o interface_check.o  tetra/CMakeFiles/tetra.dir/tetra.cpp.o -lgmp
-
-tetra/CMakeFiles/tetra.dir/tetra.cpp.o: tetra/tetra.cpp tetra/main.cpp
-	cd tetra/; cgal_create_CMakeLists -s tetra; cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-v -shared -fPIC"; make;
+libmodel${PRECISION}${SUPPORT_MP}${SUPPORT_SP}.so: interface_config.o interface_agent.o interface_mech_intrct.o interface_grid.o interface_output.o model_routine_config.o model_routine_grid.o model_routine_agent.o model_routine_mech_intrct.o model_routine_output.o interface_check.o 
+	$(CXX) -shared $(LINKFLAG) -Wl,-soname,libmodel${PRECISION}${SUPPORT_MP}${SUPPORT_SP}.so -o libmodel${PRECISION}${SUPPORT_MP}${SUPPORT_SP}.so interface_config.o interface_agent.o interface_mech_intrct.o interface_grid.o interface_output.o model_routine_config.o model_routine_grid.o model_routine_agent.o model_routine_mech_intrct.o model_routine_output.o interface_check.o -lgmp
 
 interface_config.o: $(BIOCELLION_ROOT)/libmodel/interface/interface_config.cpp
 	$(CXX) $(CXXFLAG) $(INCLUDE) -c $(BIOCELLION_ROOT)/libmodel/interface/interface_config.cpp -o interface_config.o
@@ -65,11 +62,9 @@ clean:
 	$(RM) *.o
 	$(RM) *.a
 	$(RM) *.so
-	cd tetra; make clean
 
 clean_all:
 	$(RM) *.ilo
 	$(RM) *.o
 	$(RM) *.a
 	$(RM) *.so
-	cd tetra; make clean

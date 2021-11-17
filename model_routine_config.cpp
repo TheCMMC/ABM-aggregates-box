@@ -302,7 +302,7 @@ void ModelRoutine::updateSummaryOutputInfo( Vector<SummaryOutputInfo>& v_summary
 void ModelRoutine::initGlobal( Vector<U8>& v_globalData ) {/* called once per simulation */
 	/* MODEL START */
 
-  cfd_setup((char*)"Velocity_220rpm.txt") ;
+//   cfd_setup((char*)"Velocity_220rpm.txt") ;
 
 	/* MODEL END */
 
