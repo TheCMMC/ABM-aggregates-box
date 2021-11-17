@@ -23,36 +23,32 @@ using namespace std;
 #if HAS_SPAGENT
 void ModelRoutine::updateSpAgentOutput( const VIdx& vIdx, const SpAgent& spAgent, REAL& color, Vector<REAL>& v_extraReal, Vector<VReal>& v_extraVReal ) {
 	/* MODEL START */
-
 	color = spAgent.state.getModelInt( CELL_MODEL_INT_STATE );
 	CHECK( v_extraReal.size() == NUM_PARTICLE_EXTRA_OUTPUT_REALS );
-        REAL radius = spAgent.state.getModelReal( CELL_MODEL_REAL_RADIUS );   
+    REAL radius = spAgent.state.getModelReal( CELL_MODEL_REAL_RADIUS );   
 	v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_RADIUS] = radius;
 
-        // print the Pressure
-        //REAL CellVol = volume_agent( radius );
-        REAL stress = spAgent.state.getModelReal( CELL_MODEL_REAL_STRESS );
+    // print the Pressure
+    //REAL CellVol = volume_agent( radius );
+    REAL stress = spAgent.state.getModelReal( CELL_MODEL_REAL_STRESS );
 
-        // print the id of supporting microcarrier, -1 for microcarroers and -1 detached cells
-        S64 microID = -1 ;
-        if ( spAgent.state.getType() == AGENT_CELL_A ) { 
-           for ( S32 i = 0 ; i <  spAgent.junctionData.getNumJunctions(); i++ ) {
-              JunctionEnd end = spAgent.junctionData.getJunctionEndRef(i);
-              if ( end.getType() == JUNCTION_END_TYPE_MICROCARRIER  ) {
-                 microID = spAgent.junctionData.getOtherEndId( i ) ;
-              }
-           }
+    // print the id of supporting microcarrier, -1 for microcarroers and -1 detached cells
+    S64 microID = -1 ;
+    if ( spAgent.state.getType() == AGENT_CELL_A ) { 
+        for ( S32 i = 0 ; i <  spAgent.junctionData.getNumJunctions(); i++ ) {
+            JunctionEnd end = spAgent.junctionData.getJunctionEndRef(i);
+            if ( end.getType() == JUNCTION_END_TYPE_MICROCARRIER  ) {
+                microID = spAgent.junctionData.getOtherEndId( i ) ;
+            }
         }
-        v_extraReal[ PARTICEL_EXTRA_OUTPUT_REAL_MicroID ] = REAL( microID ) ;
-        v_extraReal[ PARTICLE_EXTRA_OUTPUT_REAL_STRESS ] =  stress;
-        v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_ID] = REAL( spAgent.junctionData.getCurId() )  ;
-        v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_VX] = spAgent.state.getModelReal( CELL_MODEL_REAL_DX ) / BASELINE_TIME_STEP_DURATION ;
-        v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_VY] = spAgent.state.getModelReal( CELL_MODEL_REAL_DY ) / BASELINE_TIME_STEP_DURATION ;
-        v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_VZ] = spAgent.state.getModelReal( CELL_MODEL_REAL_DZ ) / BASELINE_TIME_STEP_DURATION ;
-
-
+    }
+    v_extraReal[ PARTICEL_EXTRA_OUTPUT_REAL_MicroID ] = REAL( microID ) ;
+    v_extraReal[ PARTICLE_EXTRA_OUTPUT_REAL_STRESS ] =  stress;
+    v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_ID] = REAL( spAgent.junctionData.getCurId() )  ;
+    v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_VX] = spAgent.state.getModelReal( CELL_MODEL_REAL_DX ) / BASELINE_TIME_STEP_DURATION ;
+    v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_VY] = spAgent.state.getModelReal( CELL_MODEL_REAL_DY ) / BASELINE_TIME_STEP_DURATION ;
+    v_extraReal[PARTICLE_EXTRA_OUTPUT_REAL_VZ] = spAgent.state.getModelReal( CELL_MODEL_REAL_DZ ) / BASELINE_TIME_STEP_DURATION ;
 	/* MODEL END */
-
 	return;
 }
 #endif
@@ -75,31 +71,32 @@ void ModelRoutine::updateSummaryVar( const VIdx& vIdx, const NbrUBAgentData& nbr
    /* Count the number of cells placed in the Simulation Domain */
    for (S32 i = 0 ; i < ( S32 )ubAgentData.v_spAgent.size() ; i++ ) {
           
-      S32 mtype = ubAgentData.v_spAgent[i].state.getModelInt( CELL_MODEL_INT_STATE );
+        S32 mtype = ubAgentData.v_spAgent[i].state.getModelInt( CELL_MODEL_INT_STATE );
 
-      if ( mtype == MCARRIER_INERT ) 
-         count_micro += 1.0 ;
-         if ( ubAgentData.v_spAgent[i].state.getType() == AGENT_MCARRIER ) {
-            count_attached  +=  ( REAL) ubAgentData.v_spAgent[i].junctionData.getNumJunctions() ; 
-         }
-      else if ( mtype == CELL_A_LIVE ) { 
-         count_live += 1.0;
-      }
-      else if ( mtype == CELL_A_DEATH )
-         count_death += 1.0;
+        if ( mtype == MCARRIER_INERT ){ 
+            count_micro += 1.0 ;
+            if ( ubAgentData.v_spAgent[i].state.getType() == AGENT_MCARRIER ) {
+                count_attached  +=  ( REAL) ubAgentData.v_spAgent[i].junctionData.getNumJunctions() ; 
+            }
+        }
+        else if ( mtype == CELL_A_LIVE ) { 
+            count_live += 1.0;
+        }
+        else if ( mtype == CELL_A_DEATH ) {
+            count_death += 1.0;
+        }
+        REAL dx = FABS(  ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_DX )) ;
+        if ( dx > max_disp )  max_disp = dx ;
+            
+        REAL dy = FABS(  ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_DY )) ;
+        if ( dy > max_disp )  max_disp = dy ;
 
-      REAL dx = FABS(  ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_DX )) ;
-      if ( dx > max_disp )  max_disp = dx ;
-          
-      REAL dy = FABS(  ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_DY )) ;
-      if ( dy > max_disp )  max_disp = dy ;
+        REAL dz = FABS(  ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_DZ )) ;
+        if ( dz > max_disp )  max_disp = dz ;
 
-      REAL dz = FABS(  ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_DZ )) ;
-      if ( dz > max_disp )  max_disp = dz ;
-
-      REAL mech_stress  = ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_STRESS  ) ;
-      REAL factor =  STRESS_TRESHOLD*STRESS_TRESHOLD / ( STRESS_TRESHOLD*STRESS_TRESHOLD +  mech_stress*mech_stress  );
-      if ( factor > max_fact ) max_fact = factor ;
+        REAL mech_stress  = ubAgentData.v_spAgent[i].state.getModelReal( CELL_MODEL_REAL_STRESS  ) ;
+        REAL factor =  STRESS_TRESHOLD*STRESS_TRESHOLD / ( STRESS_TRESHOLD*STRESS_TRESHOLD +  mech_stress*mech_stress  );
+        if ( factor > max_fact ) max_fact = factor ;
 
    }
 
